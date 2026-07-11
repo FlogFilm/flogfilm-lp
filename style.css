@@ -386,6 +386,13 @@ section[id], main[id] {
   gap: 72px;
   align-items: center;
 }
+/* グリッドアイテムの既定値 min-width: auto を解除。
+   これがないと word-break: keep-all の本文テキストの最小幅がそのまま
+   列幅に反映され、スマホ幅で横にはみ出す（.service-card と同じ原因） */
+.about-photo,
+.about-text {
+  min-width: 0;
+}
 
 /* ---------- 11. サービスカード ---------- */
 .service-grid {
@@ -465,6 +472,11 @@ section[id], main[id] {
   grid-template-columns: repeat(4, 1fr);
   gap: 40px;
 }
+.reason-item {
+  /* グリッドアイテムの既定値 min-width: auto を解除（.about-text と同じ理由） */
+  min-width: 0;
+  max-width: 100%;
+}
 .reason-num {
   display: block;
   font-family: var(--font-mono);
@@ -478,10 +490,15 @@ section[id], main[id] {
   font-size: 19px;
   font-weight: 600;
   margin-bottom: 10px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 .reason-desc {
   font-size: 14px;
   color: rgba(241, 236, 225, 0.72);
+  max-width: 100%;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* ---------- 14. 料金プラン ---------- */
@@ -492,6 +509,8 @@ section[id], main[id] {
   margin-bottom: 24px;
 }
 .price-card {
+  /* グリッドアイテムの既定値 min-width: auto を解除（.about-text と同じ理由） */
+  min-width: 0;
   background-color: var(--color-paper);
   border: 1px solid var(--color-line);
   border-radius: 2px;
@@ -591,6 +610,11 @@ section[id], main[id] {
   display: grid;
   grid-template-columns: 1.3fr 0.9fr;
   gap: 56px;
+}
+/* グリッドアイテムの既定値 min-width: auto を解除（.about-text と同じ理由） */
+.contact-form,
+.contact-alt {
+  min-width: 0;
 }
 .form-row { margin-bottom: 20px; }
 .form-row label {
@@ -725,6 +749,8 @@ section[id], main[id] {
   .section { padding: 80px 0; }
   .service-grid { grid-template-columns: 1fr; }
   .reason-grid { grid-template-columns: 1fr; }
-  .contact-sheet { grid-template-columns: repeat(2, 1fr); }
+  /* 9枚（3の倍数）なので2列にすると最後に1枠分の空白ができてしまう。
+     3列のまま維持し、コンタクトシートらしい小さめの正方形サムネイルで揃える */
+  .contact-sheet { grid-template-columns: repeat(3, 1fr); }
   .header-inner { padding: 0 20px; }
 }
