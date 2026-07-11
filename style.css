@@ -1,0 +1,730 @@
+/* ============================================================
+  Flog Film LP スタイルシート
+  デザインコンセプト：「フィルム・コンタクトシート」
+  　→ フィルムの粒子感／パーフォレーション（穴）／コマ番号を
+  　　 モチーフにした、写真・映像業らしい世界観。
+  　→ 色は彩度を抑えた紙・粘土・苔のトーンでまとめ、
+  　　 ありがちな「ベージュ×明朝×テラコッタ」の量産感を避けている。
+============================================================ */
+
+/* ---------- 1. 変数定義（ここを変えると全体の配色・余白が変わります） ---------- */
+:root {
+  /* ベースカラー（紙・原稿用紙のような、少しグレーがかった生成り色） */
+  --color-paper: #f1ece1;
+  --color-paper-deep: #e7e0d1;
+
+  /* テキストカラー（純黒ではなく、温かみのある焦げ茶） */
+  --color-ink: #322a1f;
+  --color-ink-soft: #6b5f4d;
+
+  /* アクセント：粘土色（クレイ） */
+  --color-clay: #b5613f;
+  --color-clay-deep: #8c4a2f;
+
+  /* アクセント：苔色（セージグリーン）。クレイだけに頼らないための第2アクセント */
+  --color-moss: #6d7a5c;
+
+  /* アクセント：セーフライトのような琥珀色。細い線や数字に少量だけ使用 */
+  --color-gold: #c39a52;
+
+  /* ダークセクション用（漆黒ではなく、焼けた木のような濃茶） */
+  --color-dark: #2a2318;
+  --color-dark-soft: #4a4030;
+
+  /* 境界線・薄いグレイン */
+  --color-line: rgba(50, 42, 31, 0.14);
+  --color-line-light: rgba(241, 236, 225, 0.2);
+
+  /* プレースホルダー画像の下地色（images/placeholder.svg と揃えている） */
+  --color-ph-bg: #cabfa9;
+
+  /* フォント */
+  --font-heading: "Zen Old Mincho", serif;
+  --font-body: "Zen Kaku Gothic New", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* レイアウト */
+  --container-width: 1120px;
+  --header-height: 76px;
+}
+
+/* ---------- 2. リセット & 基本設定 ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  line-height: 1.8;
+  font-size: 16px;
+  overflow-x: hidden;
+  /* 日本語テキストが英単語の途中などで不自然に折り返されないようにする */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 見出し・リード文は対応ブラウザでバランスの良い行折り返しにする */
+h1, h2, h3, .lead-text, .section-desc {
+  text-wrap: pretty;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol { list-style: none; }
+
+/* 英単語の途中などで改行してほしくない箇所に付与するユーティリティ */
+.nowrap { white-space: nowrap; }
+
+/* 特定の写真だけ正方形トリミングの基準位置を変えたい場合に付与するユーティリティ。
+   例：家族写真カード（family-01.jpg）は左右に赤い灯籠が立っており、
+   正方形にトリミングすると必ずどちらか一方が入り込んでしまう構図のため、
+   左右の朱色が同程度かつ最小になる位置をピクセル単位で検証して53%に調整している
+   （center=50%だと左の灯籠が、right=100%だと右の灯籠が大きく入り込んでしまう） */
+.ph-img-el.ph-img-pos-right { object-position: 53% center; }
+
+/* メモリアル写真（memorial-01.jpg）：center(50%)だと頭頂部が枠上端でギリギリ切れてしまうため、
+   縦位置を35%（やや上＝画像を下にずらす）にして頭上の余白を確保している。
+   横方向は画像の全幅がそのまま収まる比率のためクロップが発生せず、左右調整は不要 */
+.ph-img-el.ph-img-pos-headroom { object-position: center 35%; }
+
+/* 見出しセクションのアンカー位置調整（固定ヘッダー分だけずらす） */
+section[id], main[id] {
+  scroll-margin-top: var(--header-height);
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ---------- 3. フィルムグレイン（画面全体のノイズ演出） ---------- */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 4. 見出し・共通テキスト ---------- */
+.section-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+  color: var(--color-ink);
+}
+
+.title-light { color: var(--color-paper); }
+
+.section-desc {
+  max-width: 560px;
+  color: var(--color-ink-soft);
+  margin-bottom: 48px;
+}
+
+.lead-text {
+  font-size: 19px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.body-text {
+  color: var(--color-ink-soft);
+  margin-bottom: 16px;
+  max-width: 46em;
+}
+
+/* 「01 About」のようなフィルムのコマ番号風ラベル */
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--color-clay-deep);
+  margin-bottom: 18px;
+}
+.kicker-light { color: var(--color-gold); }
+.kicker-line {
+  display: inline-block;
+  width: 40px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+.kicker-text { text-transform: uppercase; }
+
+/* ---------- 5. ボタン ---------- */
+.btn {
+  display: inline-block;
+  padding: 16px 36px;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  border: 1px solid transparent;
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  text-align: center;
+}
+.btn-primary {
+  background-color: var(--color-clay-deep);
+  color: var(--color-paper);
+}
+.btn-primary:hover {
+  background-color: var(--color-clay);
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background: transparent;
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  display: block;
+  margin-bottom: 14px;
+}
+.btn-outline:hover {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+}
+.btn-block { width: 100%; margin-top: 8px; }
+
+/* ---------- 6. 画像コンテナ（.ph-img） ----------
+  aspect-ratio指定で画像の比率を保ちつつ、.ph-img-el（<img>）を
+  object-fit: coverでトリミング表示するための枠。
+  差し替え時は .ph-img-el の src / alt を実際の写真に合わせて更新してください。
+------------------------------------------------------- */
+.ph-img {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-ph-bg);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.ph-img-el {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ---------- 7. ヘッダー ---------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  height: var(--header-height);
+  background: rgba(241, 236, 225, 0.88);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-line);
+  transition: box-shadow 0.3s ease;
+}
+.site-header.is-scrolled {
+  box-shadow: 0 4px 16px rgba(50, 42, 31, 0.08);
+}
+.header-inner {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  color: var(--color-ink);
+}
+.main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  position: relative;
+  padding: 4px 0;
+}
+.nav-link:hover { color: var(--color-clay-deep); }
+.nav-cta {
+  background-color: var(--color-clay-deep);
+  color: var(--color-paper) !important;
+  padding: 10px 20px !important;
+  border-radius: 2px;
+}
+.nav-cta:hover { background-color: var(--color-clay); }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-ink);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-active span:nth-child(2) { opacity: 0; }
+.hamburger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---------- 8. ヒーローセクション ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding-top: var(--header-height);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: stretch;
+  background-color: var(--color-paper);
+}
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 64px;
+}
+.hero-frame-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: var(--color-clay-deep);
+  margin-bottom: 24px;
+}
+.hero-copy {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  margin-bottom: 24px;
+}
+.hero-sub {
+  color: var(--color-ink-soft);
+  max-width: 34em;
+  margin-bottom: 36px;
+  font-size: 16px;
+}
+.hero-photo {
+  height: 100%;
+  min-height: 420px;
+  aspect-ratio: auto !important;
+}
+
+/* フィルムのパーフォレーション（穴）を模した縦ストリップ */
+.sprocket-strip {
+  position: absolute;
+  top: var(--header-height);
+  bottom: 0;
+  width: 14px;
+  z-index: 2;
+  background-color: var(--color-dark);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-paper) 0px,
+    var(--color-paper) 10px,
+    transparent 10px,
+    transparent 24px
+  );
+  -webkit-mask-image: repeating-linear-gradient(to bottom, black 0px, black 10px, transparent 10px, transparent 24px);
+}
+.sprocket-left { left: 0; }
+.sprocket-right { right: calc(35% - 14px); }
+
+@media (max-width: 900px) {
+  .sprocket-right { display: none; }
+}
+
+/* ---------- 9. セクション共通レイアウト ---------- */
+.section {
+  padding: 120px 0;
+  position: relative;
+}
+.section-alt { background-color: var(--color-paper-deep); }
+.section-dark {
+  background-color: var(--color-dark);
+  color: var(--color-paper);
+}
+
+/* ---------- 10. About セクション ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+/* ---------- 11. サービスカード ---------- */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+}
+.service-card {
+  /* グリッドアイテムの既定値 min-width: auto を解除。
+     これがないと中の<img>の実寸（自然サイズ）が列の最小幅計算に影響し、
+     列ごとに幅がバラついてしまう（写真の枠サイズが不揃いになる原因だった） */
+  min-width: 0;
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  padding-bottom: 24px;
+  border-radius: 2px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 30px rgba(50, 42, 31, 0.1);
+}
+.service-photo {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border-radius: 2px 2px 0 0;
+}
+.service-title {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 24px 10px;
+  /* 「プロフィール・宣材写真」等の長い見出しが不自然な位置で折り返されないように */
+  word-break: keep-all;
+}
+.service-desc {
+  margin: 0 24px;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+  word-break: keep-all;
+}
+
+/* ---------- 12. ギャラリー（コンタクトシート風） ---------- */
+.contact-sheet {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  background-color: var(--color-dark);
+  padding: 4px;
+  border-radius: 2px;
+}
+.frame {
+  position: relative;
+  background-color: var(--color-dark);
+}
+.frame .ph-img {
+  aspect-ratio: 1/1;
+}
+.frame figcaption {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-paper);
+  background: rgba(42, 35, 24, 0.6);
+  padding: 2px 6px;
+  z-index: 2;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- 13. 選ばれる理由（ダークセクション） ---------- */
+.reason-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+.reason-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-gold);
+  margin-bottom: 16px;
+  letter-spacing: 0.1em;
+}
+.reason-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.reason-desc {
+  font-size: 14px;
+  color: rgba(241, 236, 225, 0.72);
+}
+
+/* ---------- 14. 料金プラン ---------- */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 24px;
+}
+.price-card {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  padding: 36px 28px;
+  position: relative;
+}
+.price-card-featured {
+  border-color: var(--color-clay-deep);
+  border-width: 2px;
+  background-color: #fbf8f2;
+}
+.price-badge {
+  position: absolute;
+  top: -14px;
+  left: 28px;
+  background-color: var(--color-clay-deep);
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 2px;
+}
+.price-name {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.price-value {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  color: var(--color-clay-deep);
+  margin-bottom: 20px;
+}
+.price-unit {
+  font-size: 15px;
+  color: var(--color-ink-soft);
+  margin-left: 4px;
+}
+.price-list li {
+  font-size: 14px;
+  color: var(--color-ink-soft);
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 8px;
+}
+.price-list li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--color-moss);
+}
+.price-note {
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+/* ---------- 15. FAQ（アコーディオン） ---------- */
+.faq-list {
+  max-width: 760px;
+  border-top: 1px solid var(--color-line);
+}
+.faq-item {
+  border-bottom: 1px solid var(--color-line);
+  padding: 22px 0;
+}
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--color-clay-deep);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p {
+  margin-top: 14px;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+  max-width: 60em;
+}
+
+/* ---------- 16. お問い合わせ ---------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 56px;
+}
+.form-row { margin-bottom: 20px; }
+.form-row label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--color-ink-soft);
+}
+.form-row input,
+.form-row textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  background-color: var(--color-paper);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-ink);
+  resize: vertical;
+}
+.form-row input:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: var(--color-clay-deep);
+}
+.form-note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--color-moss);
+  min-height: 1.4em;
+}
+.contact-alt {
+  background-color: var(--color-paper-deep);
+  border-radius: 2px;
+  padding: 32px;
+  align-self: start;
+}
+.contact-alt-text {
+  color: var(--color-ink-soft);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* ---------- 17. フッター ---------- */
+.site-footer {
+  background-color: var(--color-dark);
+  color: var(--color-paper);
+  padding: 56px 0 32px;
+}
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+.logo-light { color: var(--color-paper); }
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  font-size: 14px;
+  color: rgba(241, 236, 225, 0.72);
+}
+.footer-nav a:hover { color: var(--color-gold); }
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(241, 236, 225, 0.5);
+}
+
+/* ---------- 18. スクロールフェードイン用アニメーション ----------
+  script.js の IntersectionObserver と連動。
+  .fade-in が付与された要素に .is-visible が付くとふわっと表示される。
+------------------------------------------------------------- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- 19. レスポンシブ対応 ---------- */
+
+/* タブレット */
+@media (max-width: 1024px) {
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-photo { max-width: 360px; }
+  .service-grid { grid-template-columns: repeat(2, 1fr); }
+  .reason-grid { grid-template-columns: repeat(2, 1fr); }
+  .price-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+/* スマホ・ナビ切り替え */
+@media (max-width: 860px) {
+  .main-nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background-color: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+    transform: translateY(-120%);
+    transition: transform 0.3s ease;
+    z-index: 400;
+  }
+  .main-nav.is-open { transform: translateY(0); }
+  .main-nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 32px 32px;
+    gap: 20px;
+  }
+  .nav-cta { display: inline-block; text-align: center; }
+  .hamburger { display: flex; }
+
+  .hero { grid-template-columns: 1fr; }
+  .hero-photo { min-height: 320px; order: -1; }
+  .hero-inner { padding: 48px 24px; }
+  .sprocket-right { display: none; }
+}
+
+/* スマホ全般 */
+@media (max-width: 640px) {
+  .container { padding: 0 20px; }
+  .section { padding: 80px 0; }
+  .service-grid { grid-template-columns: 1fr; }
+  .reason-grid { grid-template-columns: 1fr; }
+  .contact-sheet { grid-template-columns: repeat(2, 1fr); }
+  .header-inner { padding: 0 20px; }
+}

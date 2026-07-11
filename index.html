@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<!-- SEO対策：スマホ等でのレスポンシブ表示をクローラーにも明示するためviewportを指定 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SEO対策：検索結果・ブラウザタブに表示されるタイトル。サービス内容と地域名を含める -->
+<title>Flog Film｜群馬の写真・映像撮影 メモリアル・ペット・家族・企業撮影</title>
+
+<!-- SEO対策：検索結果のスニペットに使われる要約文。対応ジャンルと拠点地域を120字前後で要約 -->
+<meta name="description" content="群馬県を拠点に、メモリアル写真・ペット写真・家族写真・プロフィール宣材写真・カジュアルウェディング・企業撮影まで幅広く撮影するFlog Film。大切な瞬間を、丁寧な一枚に残します。">
+
+<!-- SEO対策：同じ内容のページが複数URLで存在する場合の重複評価を避けるための正規URL（本番ドメイン確定後に差し替え） -->
+<link rel="canonical" href="https://flogfilm.com/">
+
+<!-- ============================================
+  SEO対策：OGP（Facebook等でのシェア時の見た目を制御）
+  og:imageは仮のパスです。本番では1200x630px程度の実写真に差し替えてください
+============================================ -->
+<meta property="og:title" content="Flog Film｜群馬の写真・映像撮影 メモリアル・ペット・家族・企業撮影">
+<meta property="og:description" content="群馬県を拠点に、メモリアル写真・ペット写真・家族写真・プロフィール宣材写真・カジュアルウェディング・企業撮影まで幅広く撮影するFlog Film。大切な瞬間を、丁寧な一枚に残します。">
+<meta property="og:image" content="https://flogfilm.com/images/og-image.jpg">
+<meta property="og:url" content="https://flogfilm.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+
+<!-- SEO対策：X（Twitter）でシェアされた際にも大きい画像付きカードで表示されるようにする -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Flog Film｜群馬の写真・映像撮影 メモリアル・ペット・家族・企業撮影">
+<meta name="twitter:description" content="群馬県を拠点に、メモリアル写真・ペット写真・家族写真・プロフィール宣材写真・カジュアルウェディング・企業撮影まで幅広く撮影するFlog Film。">
+<meta name="twitter:image" content="https://flogfilm.com/images/og-image.jpg">
+
+<!-- ============================================
+  Google Fonts
+  見出し：Zen Old Mincho（温かみのある明朝体）
+  本文　：Zen Kaku Gothic New（柔らかい印象のゴシック体）
+  数字・英字ラベル：JetBrains Mono（フィルムのコマ番号風の演出に使用）
+============================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<!--
+  SEO対策：構造化データ(JSON-LD)。検索結果でのリッチな表示（ローカルビジネス情報等）を狙う。
+  telephone / address は仮の値です。屋号の正式な電話番号・住所が決まり次第、必ず本番の値に差し替えてください。
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Flog Film",
+  "description": "群馬県を拠点とする写真・映像制作サービス。メモリアル写真、ペット写真、家族写真、プロフィール・宣材写真、カジュアルウェディング、企業撮影に対応。",
+  "url": "https://flogfilm.com/",
+  "telephone": "000-0000-0000",
+  "email": "flogfilm0125@gmail.com",
+  "areaServed": "群馬県",
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "群馬県",
+    "addressCountry": "JP"
+  },
+  "image": "https://flogfilm.com/images/og-image.jpg"
+}
+</script>
+</head>
+<body>
+
+<!-- 画面全体にうっすら重ねるフィルム粒子(グレイン)テクスチャ。装飾のみでクリック等には反応しない -->
+<div class="grain-overlay" aria-hidden="true"></div>
+
+<!-- ============================================
+  ヘッダー（固定）
+============================================ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#top" class="logo">FLOG FILM</a>
+
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#service" class="nav-link">Service</a></li>
+        <li><a href="#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="#reason" class="nav-link">Reason</a></li>
+        <li><a href="#price" class="nav-link">Price</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li><a href="#contact" class="nav-link nav-cta">お問い合わせ</a></li>
+      </ul>
+    </nav>
+
+    <!-- ハンバーガーメニュー（スマホ用） -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============================================
+    1. ヒーローセクション（ファーストビュー）
+  ============================================ -->
+  <section class="hero" id="hero">
+    <!-- フィルムのパーフォレーション（穴）を模した装飾ストリップ -->
+    <div class="sprocket-strip sprocket-left" aria-hidden="true"></div>
+    <div class="sprocket-strip sprocket-right" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <p class="hero-frame-label">NO. 001 — OPENING SHOT</p>
+
+      <!-- SEO対策：ページ全体でh1はここ1箇所のみ。以降の見出しはh2→h3の順で階層化している -->
+      <h1 class="hero-copy">
+        大切な瞬間を、<br>
+        ずっと残る一枚に。
+      </h1>
+
+      <!-- "Flog Film"が単語の途中で改行されないようnowrapで囲んでいる -->
+      <p class="hero-sub">
+        群馬を拠点に、人生の節目を丁寧に写し撮る写真・映像制作 <span class="nowrap">「Flog Film」。</span>
+      </p>
+
+      <a href="#contact" class="btn btn-primary">お問い合わせはこちら</a>
+    </div>
+
+    <!-- REPLACE: ヒーローに使う代表写真（人物・家族・ペットなど、Flog Filmらしさが伝わる一枚） -->
+    <!-- SEO対策：最初に表示される画像なのでloading="lazy"は付けない -->
+    <div class="hero-photo ph-img" style="aspect-ratio: 3/4;">
+      <img class="ph-img-el" src="images/hero-main.jpg" alt="着物姿の家族が神社の門前で笑顔を見せるFlog Filmの記念写真">
+    </div>
+  </section>
+
+  <!-- ============================================
+    2. Flog Filmについて
+  ============================================ -->
+  <section class="section" id="about">
+    <div class="container about-grid">
+
+      <!-- REPLACE: プロフィール写真（本人の自然な表情のもの） -->
+      <!-- SEO対策：ファーストビュー以降の画像なのでloading="lazy"で初期表示速度を優先 -->
+      <div class="about-photo ph-img" style="aspect-ratio: 4/5;">
+        <img class="ph-img-el" src="images/profile-01.jpg" alt="望遠レンズのカメラを構えて微笑むFlog Film代表の写真" loading="lazy">
+      </div>
+
+      <div class="about-text">
+        <p class="kicker"><span class="kicker-num">01</span><span class="kicker-line"></span><span class="kicker-text">About</span></p>
+        <h2 class="section-title">Flog Filmについて</h2>
+        <p class="lead-text">
+          群馬県を拠点に活動する写真・映像制作者です。
+        </p>
+        <p class="body-text">
+          結婚式や七五三のような晴れやかな日から、大切な方を見送るための一枚まで。
+          写真には、言葉よりも長くその時間を留めておく力があると思っています。
+          Flog Filmでは、被写体の方の自然な表情やその場の空気をできるだけそのままに、
+          後から見返したときにあたたかい気持ちになれる写真・映像をお届けすることを大切にしています。
+        </p>
+        <p class="body-text">
+          撮影前のヒアリングを丁寧に行い、ご家族やご本人の希望に寄り添いながら、
+          一つひとつの撮影に向き合っています。
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================
+    3. サービス一覧
+  ============================================ -->
+  <section class="section section-alt" id="service">
+    <div class="container">
+      <p class="kicker"><span class="kicker-num">02</span><span class="kicker-line"></span><span class="kicker-text">Service</span></p>
+      <h2 class="section-title">サービス一覧</h2>
+      <p class="section-desc">撮影ジャンルに合わせて、それぞれに合った距離感・光の使い方で撮影しています。</p>
+
+      <div class="service-grid">
+
+        <article class="service-card">
+          <!-- REPLACE: メモリアル写真（遺影・法要）の雰囲気が伝わる写真 -->
+          <div class="service-photo ph-img">
+            <img class="ph-img-el ph-img-pos-headroom" src="images/memorial-01.jpg" alt="穏やかな笑顔を見せる女性を写したFlog Filmのメモリアル写真" loading="lazy">
+          </div>
+          <h3 class="service-title">メモリアル写真</h3>
+          <p class="service-desc">遺影・法要向けの写真撮影。故人らしい表情を、穏やかな一枚として残します。</p>
+        </article>
+
+        <article class="service-card">
+          <!-- REPLACE: ペット写真の見本カット -->
+          <div class="service-photo ph-img">
+            <img class="ph-img-el" src="images/pet-01.jpg" alt="黄色い花に囲まれ、飼い主に抱かれて笑顔を見せる犬を写したFlog Filmのペット写真" loading="lazy">
+          </div>
+          <h3 class="service-title">ペット写真</h3>
+          <p class="service-desc">家族の一員であるペットの、今しか撮れない表情やしぐさを写真に残します。</p>
+        </article>
+
+        <article class="service-card">
+          <!-- REPLACE: 家族写真（七五三・誕生日など）の見本カット -->
+          <div class="service-photo ph-img">
+            <img class="ph-img-el ph-img-pos-right" src="images/family-01.jpg" alt="七五三の晴れ着姿で神社を訪れた家族3人を写したFlog Filmの家族写真" loading="lazy">
+          </div>
+          <h3 class="service-title">家族写真</h3>
+          <p class="service-desc">七五三や誕生日など、家族の節目の記念日を自然な雰囲気で撮影します。</p>
+        </article>
+
+        <article class="service-card">
+          <!-- REPLACE: プロフィール・宣材写真の見本カット -->
+          <div class="service-photo ph-img">
+            <img class="ph-img-el" src="images/profile-biz-01.jpg" alt="スタジオで撮影された、笑顔が印象的な女性のビジネスプロフィール写真" loading="lazy">
+          </div>
+          <h3 class="service-title">プロフィール・宣材写真</h3>
+          <p class="service-desc">ビジネスプロフィールやSNS用、タレント・起業家の宣材写真を撮影します。</p>
+        </article>
+
+        <article class="service-card">
+          <!-- REPLACE: カジュアルウェディング（前撮り等）の見本カット -->
+          <div class="service-photo ph-img">
+            <img class="ph-img-el" src="images/wedding-01.jpg" alt="バラ園で寄り添うカップルを写したFlog Filmのカジュアルウェディング写真" loading="lazy">
+          </div>
+          <h3 class="service-title">カジュアルウェディング</h3>
+          <p class="service-desc">前撮りやカップルフォトなど、フォーマルすぎない結婚記念の撮影に対応します。</p>
+        </article>
+
+        <article class="service-card">
+          <!-- REPLACE: 企業撮影（会社案内・商品・社内写真）の見本カット -->
+          <div class="service-photo ph-img">
+            <img class="ph-img-el" src="images/corporate-01.jpg" alt="リビング・キッチンを撮影したFlog Filmの企業向け空間写真" loading="lazy">
+          </div>
+          <h3 class="service-title">企業撮影</h3>
+          <p class="service-desc">会社案内や商品撮影、社内写真など、法人向けの撮影に幅広く対応します。</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+    4. ギャラリー（コンタクトシート風グリッド）
+  ============================================ -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <p class="kicker"><span class="kicker-num">03</span><span class="kicker-line"></span><span class="kicker-text">Gallery</span></p>
+      <h2 class="section-title">ギャラリー</h2>
+      <p class="section-desc">これまでの撮影から、いくつかの作品を掲載しています。</p>
+
+      <div class="contact-sheet">
+        <!-- REPLACE: ギャラリー用の作品写真を9点差し替えてください -->
+        <!-- SEO対策：本文下部の画像はloading="lazy"で初期表示速度を優先。画像差し替え時はaltも実際の写真内容に合わせて更新してください -->
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-01.jpg" alt="赤い和傘を手にした着物姿の女性を写したFlog Filmのギャラリー作品" loading="lazy"></div><figcaption>001</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-02.jpg" alt="ヒーローの仮装をした人物を写したFlog Filmのギャラリー作品" loading="lazy"></div><figcaption>002</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-03.jpg" alt="やわらかな光の中で撮影された女性のスタジオポートレートを写したFlog Filmのギャラリー作品" loading="lazy"></div><figcaption>003</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-04.jpg" alt="ギフトボックスに収められたペンを写したFlog Filmの商品撮影作品" loading="lazy"></div><figcaption>004</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-05.jpg" alt="螺旋階段を背景に微笑む女性を写したFlog Filmのビジネスプロフィール作品" loading="lazy"></div><figcaption>005</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-06.jpg" alt="満開の藤の花に囲まれた女性を写したFlog Filmのギャラリー作品" loading="lazy"></div><figcaption>006</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-07.jpg" alt="笑顔で集まる三世代家族を写したFlog Filmのギャラリー作品" loading="lazy"></div><figcaption>007</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-08.jpg" alt="芝生でくつろぐビーグル犬を写したFlog Filmのペット写真" loading="lazy"></div><figcaption>008</figcaption></figure>
+        <figure class="frame"><div class="ph-img"><img class="ph-img-el" src="images/gallery-09.jpg" alt="満開の桜の下、母の肩に乗る男の子を写したFlog Filmの家族写真" loading="lazy"></div><figcaption>009</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+    5. 選ばれる理由（ダークトーンで変化をつけるセクション）
+  ============================================ -->
+  <section class="section section-dark" id="reason">
+    <div class="container">
+      <p class="kicker kicker-light"><span class="kicker-num">04</span><span class="kicker-line"></span><span class="kicker-text">Reason</span></p>
+      <h2 class="section-title title-light">選ばれる理由</h2>
+
+      <div class="reason-grid">
+        <div class="reason-item">
+          <span class="reason-num">01</span>
+          <h3 class="reason-title">迅速な対応</h3>
+          <p class="reason-desc">お問い合わせから撮影・納品まで、できる限りスピーディーに対応します。</p>
+        </div>
+        <div class="reason-item">
+          <span class="reason-num">02</span>
+          <h3 class="reason-title">幅広い撮影ジャンル</h3>
+          <p class="reason-desc">メモリアルから慶事まで、幅広いジャンルの撮影経験を活かして対応します。</p>
+        </div>
+        <div class="reason-item">
+          <span class="reason-num">03</span>
+          <h3 class="reason-title">丁寧なヒアリング</h3>
+          <p class="reason-desc">事前の打ち合わせを大切にし、要望やその場の空気に寄り添った撮影を行います。</p>
+        </div>
+        <div class="reason-item">
+          <span class="reason-num">04</span>
+          <h3 class="reason-title">群馬全域に出張可能</h3>
+          <p class="reason-desc">群馬県内であれば出張撮影に対応。ご自宅や思い出の場所での撮影も可能です。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+    6. 料金の目安
+  ============================================ -->
+  <section class="section" id="price">
+    <div class="container">
+      <p class="kicker"><span class="kicker-num">05</span><span class="kicker-line"></span><span class="kicker-text">Price</span></p>
+      <h2 class="section-title">料金の目安</h2>
+      <p class="section-desc">撮影内容やご要望により変動しますので、以下は目安としてご参照ください。詳しくはお問い合わせください。</p>
+
+      <div class="price-grid">
+        <div class="price-card">
+          <h3 class="price-name">ライトプラン</h3>
+          <p class="price-value">¥15,000<span class="price-unit">〜</span></p>
+          <ul class="price-list">
+            <li>撮影時間 約1時間</li>
+            <li>データ納品 10〜15カット</li>
+            <li>プロフィール写真・簡易記念撮影向け</li>
+          </ul>
+        </div>
+
+        <div class="price-card price-card-featured">
+          <p class="price-badge">人気</p>
+          <h3 class="price-name">スタンダードプラン</h3>
+          <p class="price-value">¥30,000<span class="price-unit">〜</span></p>
+          <ul class="price-list">
+            <li>撮影時間 約2時間</li>
+            <li>データ納品 30カット前後</li>
+            <li>家族写真・ペット写真・前撮りなど</li>
+          </ul>
+        </div>
+
+        <div class="price-card">
+          <h3 class="price-name">プレミアムプラン</h3>
+          <p class="price-value">¥50,000<span class="price-unit">〜</span></p>
+          <ul class="price-list">
+            <li>撮影時間 約3〜4時間</li>
+            <li>データ納品 50カット以上</li>
+            <li>企業撮影・複数カット/複数シーン向け</li>
+          </ul>
+        </div>
+      </div>
+      <p class="price-note">※ 出張費・簡易動画データ制作などはオプションとなります。まずはお気軽にご相談ください。</p>
+    </div>
+  </section>
+
+  <!-- ============================================
+    7. よくある質問
+  ============================================ -->
+  <section class="section section-alt" id="faq">
+    <div class="container">
+      <p class="kicker"><span class="kicker-num">06</span><span class="kicker-line"></span><span class="kicker-text">FAQ</span></p>
+      <h2 class="section-title">よくある質問</h2>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>撮影当日の流れを教えてください。</summary>
+          <p>事前のヒアリングをもとに、当日は簡単な打ち合わせののち撮影を行います。所要時間はプランによって異なりますが、途中で休憩を挟みながら進めますのでご安心ください。</p>
+        </details>
+        <details class="faq-item">
+          <summary>対応エリアはどこまでですか？</summary>
+          <p>群馬県全域に出張対応しております。県外での撮影についてもご相談に応じますので、まずはお問い合わせください。</p>
+        </details>
+        <details class="faq-item">
+          <summary>キャンセルポリシーはありますか？</summary>
+          <p>撮影日の7日前までは無料でキャンセル・日程変更が可能です。それ以降のキャンセルにつきましては、キャンセル料が発生する場合がございます。</p>
+        </details>
+        <details class="faq-item">
+          <summary>データはどのように納品されますか？</summary>
+          <p>オンラインギャラリーまたはデータ転送サービスにて、レタッチ済みの写真データを納品いたします。納期は撮影内容により異なりますが、目安として2〜3週間程度です。</p>
+        </details>
+        <details class="faq-item">
+          <summary>屋外・屋内どちらの撮影も可能ですか？</summary>
+          <p>はい、どちらも対応可能です。ご自宅やスタジオ、屋外のロケーション撮影など、ご希望に合わせてご提案いたします。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+    8. お問い合わせ
+  ============================================ -->
+  <section class="section" id="contact">
+    <div class="container">
+      <p class="kicker"><span class="kicker-num">07</span><span class="kicker-line"></span><span class="kicker-text">Contact</span></p>
+      <h2 class="section-title">お問い合わせ</h2>
+      <p class="section-desc">撮影のご相談・お見積もりなど、お気軽にお問い合わせください。</p>
+
+      <div class="contact-grid">
+
+        <!--
+          問い合わせフォーム（見た目のみ・バックエンド未実装）
+          将来的にNetlify Formsと連携する場合は、
+          <form> タグに name="contact" data-netlify="true" を追加し、
+          hidden input（form-name）を1行追加してください。
+        -->
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <label for="name">お名前</label>
+            <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+          </div>
+          <div class="form-row">
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+          </div>
+          <div class="form-row">
+            <label for="message">お問い合わせ内容</label>
+            <textarea id="message" name="message" rows="5" placeholder="撮影希望日、ご相談内容などをご記入ください" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">送信する</button>
+          <p class="form-note" id="formNote" aria-live="polite"></p>
+        </form>
+
+        <div class="contact-alt">
+          <p class="contact-alt-text">お急ぎの方・お気軽にご相談されたい方は、LINEからもお問い合わせいただけます。</p>
+          <!-- REPLACE: LINE公式アカウントのURLに差し替えてください -->
+          <a href="#" class="btn btn-outline">LINEで問い合わせる</a>
+          <!-- REPLACE: 連絡先メールアドレスに差し替えてください -->
+          <a href="mailto:flogfilm0125@gmail.com" class="btn btn-outline">メールで問い合わせる</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================
+  フッター
+============================================ -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a href="#top" class="logo logo-light">FLOG FILM</a>
+    <nav class="footer-nav">
+      <a href="#about">About</a>
+      <a href="#service">Service</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reason">Reason</a>
+      <a href="#price">Price</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="footer-copy">&copy; 2026 Flog Film. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
