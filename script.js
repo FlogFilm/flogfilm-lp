@@ -56,4 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
     { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
   );
   targets.forEach((el) => observer.observe(el));
+
+  /* ---------- 5. お問い合わせフォームの件名を自動生成 ----------
+    送信自体はNetlify Formsの通常フローに任せるため、ここではpreventDefaultせず、
+    送信直前に隠しフィールド(#formSubject)へお名前を差し込むだけにする。
+  ------------------------------------------------------------ */
+  const contactForm = document.getElementById("contactForm");
+  const nameInput = document.getElementById("name");
+  const formSubject = document.getElementById("formSubject");
+
+  if (contactForm && nameInput && formSubject) {
+    contactForm.addEventListener("submit", () => {
+      const name = nameInput.value.trim();
+      formSubject.value = name
+        ? `【Flog Film】${name}様からお問い合わせ`
+        : "【Flog Film】新しいお問い合わせ";
+    });
+  }
 });

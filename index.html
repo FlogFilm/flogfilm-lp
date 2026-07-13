@@ -387,6 +387,8 @@
           <p class="hidden" style="display:none;">
             <label>この項目は入力しないでください: <input name="bot-field"></label>
           </p>
+          <!-- メール通知の件名用。script.jsが送信直前にお名前を差し込む -->
+          <input type="hidden" name="subject" id="formSubject" value="">
           <div class="form-row">
             <label for="name">お名前</label>
             <input type="text" id="name" name="name" placeholder="山田 太郎" required>
