@@ -4,7 +4,6 @@
   2. ハンバーガーメニューの開閉（スマホ用）
   3. ナビリンククリックでメニューを閉じる
   4. スクロールフェードイン（IntersectionObserver）
-  5. お問い合わせフォームの簡易送信演出（バックエンド未実装）
 ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -57,19 +56,4 @@ document.addEventListener("DOMContentLoaded", () => {
     { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
   );
   targets.forEach((el) => observer.observe(el));
-
-  /* ---------- 5. お問い合わせフォーム（見た目のみ） ----------
-    Netlify Forms 等と連携する際は、この送信処理を削除し、
-    通常のフォーム送信（またはfetchでのPOST）に置き換えてください。
-  ------------------------------------------------------------ */
-  const contactForm = document.getElementById("contactForm");
-  const formNote = document.getElementById("formNote");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      formNote.textContent = "送信ありがとうございます。内容を確認のうえ、担当者よりご連絡いたします。";
-      contactForm.reset();
-    });
-  }
 });

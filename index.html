@@ -380,13 +380,13 @@
 
       <div class="contact-grid">
 
-        <!--
-          問い合わせフォーム（見た目のみ・バックエンド未実装）
-          将来的にNetlify Formsと連携する場合は、
-          <form> タグに name="contact" data-netlify="true" を追加し、
-          hidden input（form-name）を1行追加してください。
-        -->
-        <form class="contact-form" id="contactForm">
+        <!-- Netlify Formsと連携済み。送信内容はNetlifyの管理画面（Forms）で確認できます -->
+        <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact">
+          <!-- スパム対策用ハニーポット。人間の目には見えず、ボットだけが埋めてしまう欄 -->
+          <p class="hidden" style="display:none;">
+            <label>この項目は入力しないでください: <input name="bot-field"></label>
+          </p>
           <div class="form-row">
             <label for="name">お名前</label>
             <input type="text" id="name" name="name" placeholder="山田 太郎" required>
