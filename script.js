@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------- 4. スクロールフェードイン ---------- */
   // 主要セクション内の要素に fade-in クラスを付与して監視する
   const targets = document.querySelectorAll(
-    ".section-title, .section-desc, .kicker, .service-card, .frame, .reason-item, .price-card, .about-photo, .about-text, .faq-item"
+    ".section-title, .section-desc, .kicker, .service-card, .reason-item, .price-card, .about-photo, .about-text, .faq-item"
   );
   targets.forEach((el) => el.classList.add("fade-in"));
 
@@ -58,6 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
     { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
   );
   targets.forEach((el) => observer.observe(el));
+
+  // ギャラリー内の.frameは横スクロールでクリップされ、個別には交差判定されにくいため、
+  // 親の.gallery-sliderを監視し、is-visibleクラスをCSS側の子要素セレクタで拾わせる
+  // （.frame自体には汎用のfade-inクラスを付けず、CSSで専用のアニメーションを定義している）
+  const gallerySliderEl = document.querySelector(".gallery-slider");
+  if (gallerySliderEl) observer.observe(gallerySliderEl);
 
   /* ---------- 5. ギャラリースライダーの前へ・次へボタン ----------
     スマホは指のフリック（ネイティブのタッチスクロール）でそのまま送れるため、
