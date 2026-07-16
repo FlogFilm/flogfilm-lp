@@ -4,6 +4,8 @@
   2. ハンバーガーメニューの開閉（スマホ用）
   3. ナビリンククリックでメニューを閉じる
   4. スクロールフェードイン（IntersectionObserver）
+  5. ギャラリースライダーの前へ・次へボタン（PC向け）
+  6. お問い合わせフォームの件名を自動生成
 ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -57,7 +59,41 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   targets.forEach((el) => observer.observe(el));
 
-  /* ---------- 5. お問い合わせフォームの件名を自動生成 ----------
+  /* ---------- 5. ギャラリースライダーの前へ・次へボタン ----------
+    スマホは指のフリック（ネイティブのタッチスクロール）でそのまま送れるため、
+    ボタンはCSSでスマホ幅では非表示にしている（PCのマウス操作向け）。
+    1回のクリックでちょうど1枚分（写真の幅＋gap）だけスクロールする。
+
+    注意：scroll-snap-type: mandatory を付けたままJSでscrollBy/scrollLeftを
+    操作すると、スナップ機能と競合してスクロールが無視されるブラウザがあるため、
+    スクロール中だけ一時的にスナップを解除し、完了後に元に戻している。
+  ------------------------------------------------------------ */
+  const gallerySlider = document.querySelector(".contact-sheet");
+  const prevBtn = document.querySelector(".gallery-arrow-prev");
+  const nextBtn = document.querySelector(".gallery-arrow-next");
+
+  if (gallerySlider && prevBtn && nextBtn) {
+    let snapRestoreTimer = null;
+
+    const scrollByOneFrame = (direction) => {
+      const frame = gallerySlider.querySelector(".frame");
+      if (!frame) return;
+      const gap = parseFloat(getComputedStyle(gallerySlider).columnGap) || 0;
+      const amount = frame.getBoundingClientRect().width + gap;
+
+      gallerySlider.style.scrollSnapType = "none";
+      gallerySlider.scrollBy({ left: direction * amount, behavior: "smooth" });
+
+      clearTimeout(snapRestoreTimer);
+      snapRestoreTimer = setTimeout(() => {
+        gallerySlider.style.scrollSnapType = "";
+      }, 500);
+    };
+    prevBtn.addEventListener("click", () => scrollByOneFrame(-1));
+    nextBtn.addEventListener("click", () => scrollByOneFrame(1));
+  }
+
+  /* ---------- 6. お問い合わせフォームの件名を自動生成 ----------
     送信自体はNetlify Formsの通常フローに任せるため、ここではpreventDefaultせず、
     送信直前に隠しフィールド(#formSubject)へお名前を差し込むだけにする。
   ------------------------------------------------------------ */
