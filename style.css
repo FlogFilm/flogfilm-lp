@@ -198,7 +198,6 @@ section[id], main[id] {
   border-color: var(--color-ink);
   color: var(--color-ink);
   display: block;
-  margin-bottom: 14px;
 }
 .btn-outline:hover {
   background-color: var(--color-ink);
@@ -310,8 +309,14 @@ section[id], main[id] {
   grid-template-columns: 1.15fr 0.85fr;
   align-items: stretch;
   background-color: var(--color-paper);
+  /* 万一グリッド計算で列がはみ出しても横スクロールを出さないための保険 */
+  overflow-x: hidden;
 }
 .hero-inner {
+  /* グリッドアイテムの既定値 min-width: auto を解除。
+     これがないと隣の.hero-photo内の画像の実寸が列幅計算に影響し、
+     スマホ幅で.heroの外側まではみ出してしまう（.service-card等と同じ原因） */
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -339,6 +344,9 @@ section[id], main[id] {
   font-size: 16px;
 }
 .hero-photo {
+  /* グリッドアイテムの既定値 min-width: auto を解除（.hero-inner と同じ理由） */
+  min-width: 0;
+  width: 100%;
   height: 100%;
   min-height: 420px;
   aspect-ratio: auto !important;
@@ -437,33 +445,76 @@ section[id], main[id] {
   word-break: keep-all;
 }
 
-/* ---------- 12. ギャラリー（コンタクトシート風） ---------- */
+/* ---------- 12. ギャラリー（横スクロールスライダー） ----------
+  CSSのscroll-snapだけで実装したネイティブスライダー。
+  --frame-w が1枚あたりの表示幅（スマホ：画面幅の80% 〜 PC：380px でclampして自動調整）。
+  scroll-padding-inline / padding-inline を揃えることで、先頭・末尾の写真も中央に来る。
+------------------------------------------------------- */
+.gallery-slider {
+  position: relative;
+}
 .contact-sheet {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  background-color: var(--color-dark);
-  padding: 4px;
+  --frame-w: clamp(300px, 80vw, 380px);
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding-inline: calc((100% - var(--frame-w)) / 2);
+  padding-block: 4px;
+  padding-inline: calc((100% - var(--frame-w)) / 2);
+  background-color: var(--color-paper);
   border-radius: 2px;
+  /* 横方向のジェスチャーだけを受け取り、縦方向はページのスクロールに渡す */
+  touch-action: pan-x;
+  /* スクロールバーを非表示にし、スナップの動きだけで操作させる */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.contact-sheet::-webkit-scrollbar {
+  display: none;
 }
 .frame {
-  position: relative;
-  background-color: var(--color-dark);
+  flex: 0 0 var(--frame-w);
+  width: var(--frame-w);
+  scroll-snap-align: center;
+  background-color: var(--color-paper);
 }
 .frame .ph-img {
   aspect-ratio: 1/1;
 }
-.frame figcaption {
+
+/* 前へ・次へボタン（PCのマウス操作向け。スマホはフリックで操作するため非表示にする） */
+.gallery-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  top: 8px;
-  left: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-heading);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(42, 35, 24, 0.25);
+  z-index: 3;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+.gallery-arrow:hover {
+  background-color: var(--color-clay-deep);
   color: var(--color-paper);
-  background: rgba(42, 35, 24, 0.6);
-  padding: 2px 6px;
-  z-index: 2;
-  letter-spacing: 0.05em;
+}
+.gallery-arrow-prev { left: -8px; }
+.gallery-arrow-next { right: -8px; }
+
+@media (max-width: 640px) {
+  .gallery-arrow { display: none; }
 }
 
 /* ---------- 13. 選ばれる理由（ダークセクション） ---------- */
@@ -749,8 +800,5 @@ section[id], main[id] {
   .section { padding: 80px 0; }
   .service-grid { grid-template-columns: 1fr; }
   .reason-grid { grid-template-columns: 1fr; }
-  /* 9枚（3の倍数）なので2列にすると最後に1枠分の空白ができてしまう。
-     3列のまま維持し、コンタクトシートらしい小さめの正方形サムネイルで揃える */
-  .contact-sheet { grid-template-columns: repeat(3, 1fr); }
   .header-inner { padding: 0 20px; }
 }
