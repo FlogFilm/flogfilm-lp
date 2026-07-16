@@ -448,25 +448,29 @@ section[id], main[id] {
 /* ---------- 12. ギャラリー（横スクロールスライダー） ----------
   CSSのscroll-snapだけで実装したネイティブスライダー。
   --frame-w が1枚あたりの表示幅（スマホ：画面幅の80% 〜 PC：380px でclampして自動調整）。
-  scroll-padding-inline / padding-inline を揃えることで、先頭・末尾の写真も中央に来る。
+  .gallery-viewportの幅を--frame-wぴったりに絞ってoverflow: hidden;することで、
+  隣の写真の切れ端が見えないようにしている（表示中の1枚だけが見える状態）。
 ------------------------------------------------------- */
 .gallery-slider {
   position: relative;
 }
-.contact-sheet {
+.gallery-viewport {
   --frame-w: clamp(300px, 80vw, 380px);
+  position: relative;
+  width: var(--frame-w);
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.contact-sheet {
   display: flex;
-  gap: 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  scroll-padding-inline: calc((100% - var(--frame-w)) / 2);
-  padding-block: 4px;
-  padding-inline: calc((100% - var(--frame-w)) / 2);
   background-color: var(--color-paper);
-  border-radius: 2px;
-  /* 横方向のジェスチャーだけを受け取り、縦方向はページのスクロールに渡す */
-  touch-action: pan-x;
+  /* 横方向のジェスチャーだけを受け取り、縦方向はページのスクロールに渡す。
+     優先度を確実にするため!importantで指定している */
+  touch-action: pan-x !important;
   /* スクロールバーを非表示にし、スナップの動きだけで操作させる */
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -475,13 +479,21 @@ section[id], main[id] {
   display: none;
 }
 .frame {
-  flex: 0 0 var(--frame-w);
-  width: var(--frame-w);
-  scroll-snap-align: center;
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
   background-color: var(--color-paper);
+  /* .contact-sheet側だけでなく、実際に指が触れる要素にも明示しておく */
+  touch-action: pan-x !important;
 }
 .frame .ph-img {
   aspect-ratio: 1/1;
+}
+.frame .ph-img-el {
+  /* 画像のネイティブドラッグ（範囲選択・画像ドラッグ）がスワイプ操作を
+     妨げないようにする */
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 /* 前へ・次へボタン（PCのマウス操作向け。スマホはフリックで操作するため非表示にする） */
@@ -510,8 +522,8 @@ section[id], main[id] {
   background-color: var(--color-clay-deep);
   color: var(--color-paper);
 }
-.gallery-arrow-prev { left: -8px; }
-.gallery-arrow-next { right: -8px; }
+.gallery-arrow-prev { left: 8px; }
+.gallery-arrow-next { right: 8px; }
 
 @media (max-width: 640px) {
   .gallery-arrow { display: none; }
