@@ -198,7 +198,6 @@ section[id], main[id] {
   border-color: var(--color-ink);
   color: var(--color-ink);
   display: block;
-  margin-bottom: 14px;
 }
 .btn-outline:hover {
   background-color: var(--color-ink);
