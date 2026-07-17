@@ -527,17 +527,28 @@ section[id], main[id] {
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
+  padding: 0;
   border-radius: 50%;
   border: none;
   background-color: rgba(42, 35, 24, 0.32);
   color: var(--color-paper);
-  font-family: var(--font-heading);
-  font-size: 22px;
-  line-height: 1;
   cursor: pointer;
   backdrop-filter: blur(2px);
   z-index: 3;
   transition: background-color 0.25s ease;
+}
+/* 矢印の文字（‹ ›）は、フォントのグリフ自体の余白により
+   line-height:1・flex中央揃えだけでは視覚的に下寄りになるため、
+   専用のspanに分けてわずかに上へ補正している */
+.gallery-arrow-icon {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 1;
+  /* Canvasでグリフの実際のインク位置を計測して補正値を決定している
+     （line-height:1だけでは、このフォントの行送り上の余白の影響で
+     視覚的な中心が下にずれるため） */
+  transform: translateY(-4.5px);
 }
 .gallery-arrow:hover,
 .gallery-arrow:active {
